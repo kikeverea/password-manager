@@ -9,7 +9,7 @@
 
     <div>
       <%= form.label :role %>
-      <%= form.select :role, UserPassword::ROLES %>
+      <%= form.select :role, UserPassword::ROLES.map { |role| [role.titleize, role] } %>
     </div>
 
     <div class="my-5">

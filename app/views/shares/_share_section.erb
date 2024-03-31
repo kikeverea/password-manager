@@ -1,0 +1,13 @@
+<h4>Share</h4>
+<div class="py-3 flex flex-col gap-1 divide-y divide-gray-200">
+  <%= link_to "Add user", new_password_share_path(password), class: "pb-2" if has_owner_permissions %>
+
+  <% password.user_passwords.includes(:user).each do |user_password| %>
+    <%= render "shares/shared_password",
+               password: password,
+               user: user_password.user,
+               user_role: user_password.role,
+               shareable: has_owner_permissions %>
+  <% end %>
+
+</div>

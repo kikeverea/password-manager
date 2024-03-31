@@ -9,7 +9,8 @@
     </svg>
   <% end %>
 </h1>
-<%= link_to "Edit", edit_password_path %>
+
+<%= link_to "Edit", edit_password_path if @user_password.has_edit_permissions?%>
 
 <div class="py-5">
   <h4>Credentials</h4>
@@ -18,20 +19,8 @@
 </div>
 
 <div class="py-5">
-  <h4>Share</h4>
-  <div class="py-3 flex flex-col gap-1 divide-y divide-gray-200">
-    <%= link_to "Add user", new_password_share_path(@password), class: "pb-2" %>
-
-    <% @password.users.excluding(current_user).each do |user| %>
-     <div class="flex justify-between items-center">
-       <div class="py-2"><%= user.email %></div>
-       <%= button_to "Remove",
-                   password_share_path(@password, user),
-                   method: :delete,
-                   data: { turbo_confirm: "Are you sure?"}
-       %>
-     </div>
-    <% end %>
-
-  </div>
+  <%= render "shares/share_section",
+             password: @password,
+             has_owner_permissions: @user_password.has_owner_permissions?
+  %>
 </div>
