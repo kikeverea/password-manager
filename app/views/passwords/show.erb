@@ -1,3 +1,4 @@
+<%= link_to "←	Back", root_path, class: "block mb-4 no-underline text-xs" %>
 <h1 class="mb-0">
   <%= @password.url%>
   <%= link_to @password.url, target: :_blank do %>
@@ -8,10 +9,29 @@
     </svg>
   <% end %>
 </h1>
-
 <%= link_to "Edit", edit_password_path %>
 
 <div class="py-5">
+  <h4>Credentials</h4>
   <%= render "password_attribute", label: "Username", attribute: @password.username %>
   <%= render "password_attribute", label: "Password", attribute: @password.password %>
-</div>`
+</div>
+
+<div class="py-5">
+  <h4>Share</h4>
+  <div class="py-3 flex flex-col gap-1 divide-y divide-gray-200">
+    <%= link_to "Add user", new_password_share_path(@password), class: "pb-2" %>
+
+    <% @password.users.excluding(current_user).each do |user| %>
+     <div class="flex justify-between items-center">
+       <div class="py-2"><%= user.email %></div>
+       <%= button_to "Remove",
+                   password_share_path(@password, user),
+                   method: :delete,
+                   data: { turbo_confirm: "Are you sure?"}
+       %>
+     </div>
+    <% end %>
+
+  </div>
+</div>
